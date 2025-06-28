@@ -1,0 +1,34 @@
+Sure! Here's the full and proper command sequence, including installing unzip if it’s not already installed:
+
+---
+
+ ✅ Commands to Install AWS CLI v2 on Ubuntu (with unzip)
+
+bash
+sudo apt update && sudo apt install -y unzip
+
+curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+
+unzip awscliv2.zip
+
+sudo ./aws/install
+
+aws --version
+
+
+---
+
+ ✅ What each command does
+
+| Command                     | Purpose                                                       |
+| --------------------------- | ------------------------------------------------------------- |
+| sudo apt update           | Updates your system's package list.                           |
+| sudo apt install -y unzip | Installs unzip (required to extract the AWS CLI installer). |
+| curl ... -o awscliv2.zip  | Downloads the AWS CLI v2 zip file from Amazon.                |
+| unzip awscliv2.zip        | Extracts the installer from the zip file.                     |
+| sudo ./aws/install        | Installs AWS CLI system-wide.                                 |
+| aws --version             | Verifies the installation and shows the version.              |
+
+---
+
+Let me know if you want to configure AWS credentials after installation!
