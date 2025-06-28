@@ -1,0 +1,81 @@
+Here’s an explanation for each command in the Terraform installation process on Ubuntu/Debian:
+
+---
+
+ 1. Update system & install required packages
+
+bash
+sudo apt-get update && sudo apt-get install -y gnupg software-properties-common curl
+
+
+* sudo apt-get update: Updates the package index (list of available packages and their versions).
+* sudo apt-get install -y ...: Installs the required packages:
+
+  * gnupg: Required to handle GPG keys.
+  * software-properties-common: Adds extra functionalities like managing apt repositories.
+  * curl: Tool to download data from URLs.
+
+---
+
+ 2. Download and save the HashiCorp GPG public key
+
+bash
+wget -O- https://apt.releases.hashicorp.com/gpg | \
+gpg --dearmor | \
+sudo tee /usr/share/keyrings/hashicorp-archive-keyring.gpg > /dev/null
+
+
+* wget -O- URL: Downloads the GPG key and outputs it to stdout.
+* gpg --dearmor: Converts the GPG key from ASCII to binary format.
+* sudo tee ... > /dev/null: Saves the key to a secure system location used by apt. > /dev/null suppresses the output.
+
+---
+
+ 3. Verify the key fingerprint
+
+bash
+gpg --no-default-keyring \
+--keyring /usr/share/keyrings/hashicorp-archive-keyring.gpg \
+--fingerprint
+
+
+* Checks the fingerprint of the saved GPG key to ensure it’s authentic.
+* --no-default-keyring: Uses only the specified keyring.
+* --keyring: Specifies the keyring file to use.
+* --fingerprint: Prints the key fingerprint to verify it's the correct one.
+
+---
+
+ 4. Add the official HashiCorp APT repository
+
+bash
+echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(grep -oP '(?<=UBUNTU_CODENAME=).*' /etc/os-release || lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/hashicorp.list
+
+
+* dpkg --print-architecture: Detects your system’s architecture (e.g., amd64).
+* grep -oP ... || lsb_release -cs: Gets the codename of your Ubuntu version (e.g., jammy, focal).
+* Adds HashiCorp’s repository to your system's list so you can install Terraform directly with apt.
+
+---
+
+ 5. Update package index again to include HashiCorp repo
+
+bash
+sudo apt update
+
+
+* Refreshes your package list to include the newly added HashiCorp repository.
+
+---
+
+ 6. Install Terraform
+
+bash
+sudo apt-get install terraform
+
+
+* Installs the latest version of Terraform from the official HashiCorp repo.
+
+---
+
+Let me know if you want these steps as a script or markdown version.
